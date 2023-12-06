@@ -3,22 +3,24 @@ import { View, Image } from 'react-native';
 import { useTheme, Text, ActivityIndicator } from 'react-native-paper';
 import axios from 'axios';
 import CommonLayout from '../../components/layout/CommonLayout';
+import CocktailList from '../../components/cocktail/CocktailList';
+
+// API URL.
+const apiUrl = process.env.API_URL;
 
 export default function Home() {
   const theme = useTheme();
-
-  // API URL.
-  const apiUrl = process.env.API_URL;
   // Default states.
-  const [cocktail, setCocktail] = useState(null);
+  const [cocktails, setCocktails] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchRandomCocktail = async () => {
+    const fetchRandomCocktails = async () => {
+      const requests = Array.from({ length: 12 }, () => axios.get(`${apiUrl}/random.php`));
       try {
-        const response = await axios.get(`${apiUrl}/random.php`);
-        const cocktail = response.data.drinks[0];
-        setCocktail(cocktail);
+        const responses = await Promise.all(requests);
+        const cocktails = responses.map(response => response.data.drinks[0]);
+        setCocktails(cocktails);
       }
       catch (error) {
         console.error('Error fetching data:', error);
@@ -28,39 +30,18 @@ export default function Home() {
         setLoading(false);
       }
     };
-    fetchRandomCocktail();
+    fetchRandomCocktails();
   }, []);
 
   return (
-    <CommonLayout>
-      <View style={{
-        width: '100%',
-        fontSize: 24,
-        fontWeight: 'bold',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        {isLoading ? (
-          <ActivityIndicator animating={true} color={theme.colors.primary} />
-        ) : (
-        <>
-          <Image
-            source={{ uri: cocktail.strDrinkThumb }}
-            style={{ width: '100%', height: 400, marginBottom: 10 }}
-          />
-          <Text style={{
-            width: '100%',
-            fontSize: 24,
-            fontWeight: 'bold',
-            textAlign: 'center'
-          }}>
-            {cocktail.strDrink}
-          </Text>
-          <Text>Glass: {cocktail.strGlass}</Text>
-          <Text>{cocktail.strInstructions}</Text>
-        </>
-        )}
-      </View>
-    </CommonLayout>
+    <>
+      {isLoading ? (
+        <View styles={{padding:10}}>
+          <ActivityIndicator animating={true} color={theme.colors.primary} size="large" />
+        </View>
+      ) : (
+      <CocktailList cocktails={cocktails} />
+      )}
+    </>
   );
 };
