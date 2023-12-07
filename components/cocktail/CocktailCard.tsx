@@ -3,6 +3,7 @@ import { Text } from 'react-native-paper';
 import CocktailImage from '../../components/base/CocktailImage';
 
 export default function CocktailCard({ cocktail }) {
+
   return (
     <View style={styles.container}>
       <CocktailImage
@@ -25,7 +26,6 @@ const styles = StyleSheet.create({
   },
   cocktailName: {
     fontSize: 18,
-    fontWeight: 'bold',
     textAlign: 'center',
   },
 });

@@ -28,6 +28,7 @@ export default function CommonLayout({ children }: CommonLayoutProps) {
         elevated>
         <Appbar.Content
           titleStyle={[
+            theme.fonts.headlineMediumBold,
             styles.headerText,
             {
               color: theme.colors.secondary
@@ -48,15 +49,13 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 20,
+    paddingBottom: 0,
   },
   headerText: {
     width: '100%',
-    fontSize: 28,
-    fontWeight: 'bold',
     textAlign: 'center',
     flex: 1,
-    paddingTop: 20,
+    paddingTop: 15,
   },
   content: {
     flex: 1,

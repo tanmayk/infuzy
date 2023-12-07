@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import { useTheme, Text, ActivityIndicator } from 'react-native-paper';
 import axios from 'axios';
 import CommonLayout from '../../components/layout/CommonLayout';
@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <>
       {isLoading ? (
-        <View styles={{padding:10}}>
+        <View style={styles.container}>
           <ActivityIndicator animating={true} color={theme.colors.primary} size="large" />
         </View>
       ) : (
@@ -45,3 +45,11 @@ export default function Home() {
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
