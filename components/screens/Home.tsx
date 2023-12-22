@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 import { View, Image, StyleSheet } from 'react-native';
-import { useTheme, Text, ActivityIndicator } from 'react-native-paper';
+import { useTheme, ActivityIndicator } from 'react-native-paper';
 import axios from 'axios';
-import CommonLayout from '../../components/layout/CommonLayout';
 import CocktailList from '../../components/cocktail/CocktailList';
 
 // API URL.
 const apiUrl = process.env.API_URL;
 
 export default function Home() {
+
+  // const goTo = useTabNavigation();
+  // const index = useTabIndex();
+
   const theme = useTheme();
   // Default states.
   const [cocktails, setCocktails] = useState([]);
